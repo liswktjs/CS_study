@@ -80,6 +80,42 @@ DOM을 깨우치다 (코디 린들리 저) 에서 기억해 두면 좋을 만 �
   
 - element 노드 리스트 선택 및 생성하기: querySelectorAll(), getElemetsByTagName(), getElementsByClassName() 
   
+🎨 2021.09.18 요소의 위치들 알아내기
+  
 > Element 노드 지오메트리와 스크롤링 지오메트리 
   
- 
+- offsetParent를 기준으로 element의 offsetTop 및 offsetLeft의 값 가져오기
+  
+: offsetTop, offsetLeft를 활용하면 offsetParent로 부터 element 노드의 오프셋 픽셀 값을 가져올 수 있다. 이때 가장 가까운 부모 element 중에서 position이 absolute가 아닌 경우 body나 document에 해당하는 것이 기준이 된다 
+  
+부모 요소(자신을 감싸고 있는 요소)의 position이 absolute인 경우에는 해당 부모 요소를 기준으로 위치를 계산한다 
+  
+- getBoundingClientRect() 를 사용하여 뷰포트를 기준으로 element의 top,right,bottom,left 테두리의 오프셋을 얻기
+  
+  : viewport(브라우저)의 좌상단 끝을 기준으로 element가 브라우저에서 그려질때 element의 바깥쪽 테두리의 위치를 얻을 수 있다. 
+  
+  var divEdges = document.querySelector(element이름).getBoundingClientRect() 를 하게 되면 각각 divEdges.top, divEdges.right, divEdges.bottom, divEdges.left 순서대로 값을 얻어 낼 수 있다  
+  
+=> 해당 기능은 유저가 마우스 커서를 어디에 위치시키냐에 따라서 상태를 변하게 하는데 편하다 예시) 마우스 위를 움직이면서 별점 container안의 별들이 색칠되는 등의 효과표현
+  
+- 뷰포트에서 element의 크기(테두리+ 패딩+ 내용) 얻기
+  
+: getBoundingClientRect()를 사용하게 되면 top, right, bottom, left와 더불어 height와 width 값을 가지고 있는 개체를 얻을 수있다. 이때, element의 크기는 div의 내용, 패딩, 테두리를 모두 더한 것이다 
+  
+- 뷰포트에서 border(테두리)를 제외한 element크기(패딩+내용)얻기 : div.clientHeight, div.clientWidth / 각각 패딩 내용만을 고려한 너비와 높이값을 알아낼 수 있다 
+  
+- scrollHeight와 scrollWidth를 사용하여 스크롤될 element의 크기 얻기 
+  
+: 웹 브라우저에서 스크롤되는 html 문서를 열고 <html>나 <body>의 속성에 접근하면, 스크롤될 html문서의 전체 크기를 구할 수 있다. / 만약 특정 노드 안의 길이를 구하고 싶을때에도 사용이 가능하다 
+  
+  ex) div의 너비와 높이는 모두 100이고 p가 1000일때 <div><p></p></div> 에서 div.scrollHeight와 div.scrollWidth를 구하게 되면 모두 1000이 출력이 된다 
+  
+ => 유저가 스크롤 하면서 길이에 따른 다른 animation적용하기에 활용 가능하다 
+  
+  (*만약, 스크롤될 노드가 스크롤 영역보다 작은 경우, 스코롤 가능한 영역 내의 포함된 노드의 크기를 판별하려면 clientHeight,clientWidth를 사용한다)
+  
+- 스크롤 된 top과 left값을 구하고 싶다면 스크롤영역가리키는element.scrollTop(또는 .scrollLeft)를 사용하여 값을 구할 수 있다.
+  
+> element 노드 인라인 스타일 
+  
+주의점: css에서 변수에 사용하는 -의 경우 js에서 style개체로 접근할때에는 이를 제거 하고 카멜케이스를 사용한다 (ex: font-size -> fontSize) 또한 css 속성명이 javascript의 키워드일 경우 css라고 접두어가 붙는다 (ex: float -> cssfloat) 
