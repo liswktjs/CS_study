@@ -116,6 +116,34 @@ DOM을 깨우치다 (코디 린들리 저) 에서 기억해 두면 좋을 만 �
   
 - 스크롤 된 top과 left값을 구하고 싶다면 스크롤영역가리키는element.scrollTop(또는 .scrollLeft)를 사용하여 값을 구할 수 있다.
   
+⏰ 2021.09.19  element 노드 인라인, textNode
+  
 > element 노드 인라인 스타일 
   
 주의점: css에서 변수에 사용하는 -의 경우 js에서 style개체로 접근할때에는 이를 제거 하고 카멜케이스를 사용한다 (ex: font-size -> fontSize) 또한 css 속성명이 javascript의 키워드일 경우 css라고 접두어가 붙는다 (ex: float -> cssfloat) 
+
+- css속성 조작하는데 사용하는 메서드: 
+  
+ setProperty(propertyNamem value) / setPropertyValue(propertyName) / getPropertyValue(propertyName) / removeProperty(propertyName) 
+  
+ (*유의점: setProperty와 getPropertyValue 메서드에 전달되는 속성명은 하이픈이 포함된 css 속성명을 사용한다 
+
+ > Text 노드 
+  
+ :html 문서가 해석 될때, html 페이지의 element 사이에 섞여 있는 테스트는 text 노드로 변환된다  / 공백노드와 줄바꿈 또한 text 노드로 만들어진다 
+  
+ - text 노드 생성 및 삽입하기 : createTextNode('text내용들') 으로 생성 한 후 다른 노드들과 같이 appendchild를 활용해 삽입한다 
+  
+ - data나 nodeValue로 text 노드 값 가져오기 : text값을 얻고자 하는 노드.firstChild.data(또는 .nodeValue)로 한다 
+  
+ - textContent와 innerText간의 차이: 
+  
+1) innerText에는 css가 반영이 된다 (숨겨진 텍스트가 있을 경우 innerText는 해당 텍스트를 무시하는 반면, textContent는 무시하지 않는다) 
+2) innerText는 css 영향을 받기 때문에 리플로우(* 문서 내 노드들의 레이아웃, 포지션을 제거한 후 다시 뿌려주는 것 퍼포먼스 저하를 유발시키는 프로세스) 가 발생하는 반면, textContent는 그렇지 않다
+3) innerText는 <script>와 <style> element내에 포함된 text 노드를 무시한다 
+4) innerText는 텍스트를 정규화해서 반환한다 (*마크업만 제거하여 그대로 반환하는 것)
+5) innerText는 비표준으로 브라우저에 국한되지만, textContent는 DOM사양으로 구현되고 있다 
+  
+  
+  
+  
