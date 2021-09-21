@@ -172,5 +172,5 @@ DOM을 깨우치다 (코디 린들리 저) 에서 기억해 두면 좋을 만 �
  
   ul.appendChild(docFrag);
   
-  body안에는 '<ul><li>blue</li><li>green</li><li>red</li></ul>' 이 최종적으로 들어가게 된다 
+  body안에는 "<ul><li>blue</li><li>green</li><li>red</li></ul>" 이 최종적으로 들어가게 된다 
   
