@@ -178,3 +178,27 @@ DOM을 깨우치다 (코디 린들리 저) 에서 기억해 두면 좋을 만 �
   
   : 기본적으로 자바스크립트는 동기방식으로 해석된다 / DOM이 해석될때, <script> element를 만나게 되면 문서 해석을 중지하고 렌더링 및 다운로드를 차단한 후 자바스크립트를 실행한다 이 동작은 블로킹이 발생하기 때문에 DOM과 자바스크립트 해석을 동시에 할 수 없게 된다 
   
+-  async 사용하여 자바스크립트 실행을 비동기로 실행하기 
+  
+  : async를 사용하면 브라우저에서 html 페이지 생성을 차단하지 않아야 하며, 순차적 로딩 역시 하지 않게 된다  파일들이 병렬적으로 로드되며 다운로드가 끝난 순서대로 해석된다 
+  
+- script의 위치 
+  
+  : head 부분에 script를 위치 시키게 되면 스크립트 뒷 부분에 있는 DOM요소에 의존적인 경우 오류를 발생시킨다 그러므로 </body>이후에 <script>를 추가 해야 한다 
+  
+ > DOM 이벤트 
+  
+- DOM 이벤트 유형들 
+  
+  |이벤트 유형|이벤트인터페이스|설명|이벤트 대상|버블|취소가능|
+  |-----------|----------------|-----------------------------------------------------------------------------------|-----------------|----|----|
+  |load|Event, UIEvent|html 페이지,이미지,css, frameset,object,javascript파일 로드될때 발생|element,document,window,XMLHttpRequest,XMLHttpRequestUpload|No|No|
+  |unload|UIEvent|user agent가 리소스나 종속 리소스(이미지,css, 파일등)을 제거할 때 발생한다|window,<body>,<frameset>|NO|NO|
+  |Abort|EVENT,UIEvent|리소스가 완전히 로드 되기 전에 로드를 중지할 때 발생|Element,XMLHttmlRequest,XMLHttpRequestUpload|Yes|NO|
+  |resize|UIEvent|문서 뷰의 크기가 변경되었을때 발생한다|window,<body>,<franeset>|Yes|NO|
+  |contextmenu|MouseEvent|element를 오른쪽 클릭 시 발생 | element |YES|YES|
+  |focus|FocusEvent|element가 포커스를 받았을 때 발생|element와 document|NO|Yes|
+  |change|html form에 국한|컨트롤이 입력포커스를 읽고 포커스를 얻은 후 값이 변경되었을 때 발생|element|YES|NO|
+  |select|html form에 국한|사용자가 input 및 textarea를 비롯한 텍스트 필드에서 텍스트를 선택할 때 발생|element|YES|NO|
+  |DOMContentLoaded|Event|웹 페이지 해석은 끝났지만 모든 리소스가 완전히 다운로드 되기 전에 발생|DOCUMENT|YES|NO|
+  
