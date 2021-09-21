@@ -145,5 +145,32 @@ DOM을 깨우치다 (코디 린들리 저) 에서 기억해 두면 좋을 만 �
 5) innerText는 비표준으로 브라우저에 국한되지만, textContent는 DOM사양으로 구현되고 있다 
   
   
+🎃 2021.09.21 documentfragment 노드, css 규칙
+   
+> DocumentFragment 노드 
   
+: DocumentFragment노드를 생성해서 사용하게 되면 라이브 DOM 트리 외부에 경량화 된 문서 DOM을 만들 수 있다 즉, DocumentFragment는 메모리상에서만 존재하는 빈 문서 템플릿이다 
+  
+ - DocumentFragment 생성하기 : let 변수노드 = document.createDocumentFragment() 로 생성 
+  
+ Fragment 사용하여 새롭게 생성한 노드 요소들을 구조에 삽입하는 것에는 다음과 같은 장점들이 있다 
+  
+ 1) DocumentFragment는 어떤 종류의 노드(<body> <html>은 제외)도 가질 수 있는 반면 , element는 그렇지 ㅇ낳다 
+ 2) DocumentFragment는 DOM에 추가하더라도 DocumentFragment 자체는 추가되지 않으며, 노드의 내용만이 추가된다 
+ 3) DocumentFragment를 DOM에 추가할 때, DocumentFragment는 추가되는 위치로 이전되며, 생성한 메모리상의 위치에 더 이상 존재하지 않는다 / 노드를 포함하기 위해 일시적으로 사용된 후 라이브 DOM으로 이동되는 element노드는 그렇지 않다 
+  
+ 예시 : 
+  let ul = document.querySelector(ul)
+  
+  let docFrag = document.createDocumentFragment();
+  
+  ["blue","green","red"].forEach(function(e){
+    let li = document.createElement('li'); 
+    li.textContent = e;
+    docFrag.appendChild(li);
+  });
+ 
+  ul.appendChild(docFrag);
+  
+  body안에는 '<ul><li>blue</li><li>green</li><li>red</li></ul>' 이 최종적으로 들어가게 된다 
   
