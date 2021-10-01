@@ -202,3 +202,66 @@ DOM을 깨우치다 (코디 린들리 저) 에서 기억해 두면 좋을 만 �
   |select|html form에 국한|사용자가 input 및 textarea를 비롯한 텍스트 필드에서 텍스트를 선택할 때 발생|element|YES|NO|
   |DOMContentLoaded|Event|웹 페이지 해석은 끝났지만 모든 리소스가 완전히 다운로드 되기 전에 발생|DOCUMENT|YES|NO|
   
+
+  🥪 2021.10.01 DOM이벤트의 흐름
+  
+  - 이벤트 전파
+  
+  DOM 트리 상에 존재하는 DOM 요소 노드에서 발생한 이벤트는 DOM트리를 통해서 전파된다 이를 event propagation이라고 한다 
+  ```
+  이벤트 전파 예시 
+  <html>
+    <body>
+      <ul id="fruits">
+        <li id="apple">Apple</li>
+        <li id="banana">Banana</li>
+        <li id="orange">Orange</li>
+      </ul>
+    </body>
+  </html>
+  ```
+  
+  banana을 클릭하면 클릭 이벤트가 발생한다 이때 생성된 이벤트 객체는 이벤트를 발생시킨 DOM 요소인 이벤트 타켓을 중심으로 DOM 트리를 통해 전파된다 이때 li는 event target 
+  
+  이벤틑 전파 방향 3가지 
+  
+  1) Capturing phase 캡처링 단계 : 이벤트가 상위 요소에서 하위 요소 방향으로 전파 
+  
+  window -> document -> html -> body -> ul -> li(event target) 
+  
+  2) Target phase 타깃 단계 : 이벤트가 이벤트 타겟에 도달 
+  
+  li (event target)
+  
+  3) Bubbling phase 버블링 단계 : 이벤트가 하위 요소에서 상위 요소 방향을 전파 
+  
+  li(event target) -> ul -> body -> html -> documnt -> window 
+  
+  
+  - 이벤트는 이벤트를 발생시킨 이벤트 타깃은 물론 상위 DOM 요소(=이벤트 패스, 이벤트가 통과하는 DOM트리상의 경로)에서도 캐치할 수 있다 
+  
+  -bubbling이 되지 않은 이벤트 들 
+  :포커스 이벤트 (focus/ blur) 리소스 이벤트(load / unload / abort / error) 마우스 이벤트 (mouseenter/ mouseleave) 
+  
+  해당 요소들을 이벤트 캐치하기 위해서는 캡쳐링 단계에서 이벤트를 캐치해야만 한다 
+  
+  -이벤트 위임
+  ```
+  const fruits = document.querySelector('.fruits');
+  cosnt msg = document.querySelector('.msg');
+  
+  //사용자 클릭에 의해 선택된 li에 active클래스를 추가하고 그외 모든 네비게이션 아이템의 active 클래스를 제거한다 
+  
+  function activate({target}) {
+    //이벤트 target가 fruits의 자식 요소가 아니라면 무시 
+    if (!target.matches('.fruits > li')) return;
+    [...fruits.children].forEach(fruit => {
+      fruit.classList.toogle('active', fruit === target);
+      msg.textContent = target.id;
+    });
+  }
+  // 이벤트 위임 상위 요소에서 하위 요소의 이벤트를 캐치할 수 있다 
+  fruits.onclick = activiate;
+  ```
+  
+  
