@@ -264,4 +264,31 @@ DOM을 깨우치다 (코디 린들리 저) 에서 기억해 두면 좋을 만 �
   fruits.onclick = activiate;
   ```
   
+  🎀 2021.10.08 DOM 이벤트 내용 마무리 
+  
+  - DOM 요소의 기본 동작 중단 할때 (예를 들어 링크를 눌렀을때 해당 연결된 주소로 이동하는 이벤트 등) preventDefault을 사용하고 전파 방지를 할 때에는 stopPropagation을 사용한다 이때 
+  stopPropagation 메서드는 하위 DOM 요소의 이벤트를 개별적으로 처리하기 위해 이벤트의 전파를 중단시킨다 
+  
+  - 이벤트 핸들러 프로퍼티 방식과 addEventListener 메서드 방식 
+  
+  이벤트 핸들러 프로퍼티 방식은
+  ```
+    btn1.onclick = function(e) {
+      console.log('click');
+    }
+  ```
+다음과 같이 사용하는 방식을 일컸는다
+  
+ addEventListener 방식은 
+ ```
+    btn1.addEventListener('click', function(e) {
+      console.log('click');
+    });
+ ```
+  과 같이 사용하는 방식을 일컸는다
+  
+  위의 두가지 경우 모두 내부의 this는 이벤트를 바인딩한 DOM요소를 가리킨다 this = 이벤트 객체의 currentTarget프로퍼티와 같음 
+  
+  !유의점 화살표 함수로 정의한 이벤트 핸들러 내부의 this는 상위 스코프의 this를 가리킨다 왜냐하면 이벤트 함수는 함수 자체의 this 바인딩을 가지고 있지않다 
+  
   
