@@ -18,3 +18,25 @@
   <li>Object.create 메서드</li>
   <li>클래스</li>
 </ol>
+
+
+<hr> 
+
+#### Event Loop, Main Thread , call back
+
+이벤트 루프 모델에서는 여러 개의 스레드를 사용하는데 그중 메인 스레드에서 자바스크립트 코드가 실행이 된다
+
+❗ 메인 스레드는 하나 이며 한 순간에 한 줄씩만 사용 (file, I/O , network 와 같은 일을 담당하는 워커 스레드는 여러개 있을 수 있음)
+
+- call back : 콜백은 브라우저나 node에 의해 이벤트가 발생하게 되면 메인 스레드에 이를 알려 주기 위하여 callback을 사용한다 
+
+지금 시점 까지 불린 함수들의 stack, 리턴 될때마다 stack에서 함수가 나가게 된다 
+
+Run-to-completion : 이벤트 루프가 다음 콜백을 처리하기 위해서는 현재 콜백 실행이 완전히 끝나야 한다 
+
+- call back queue  : 앞으로 실행할 콜백(함수와 그 인자)들을 쌓아 두는 큐이다 
+
+#### Hosting , Closure
+
+- hosting: 자바스크립트의 경우 변수의 선언과 함수들을 해당 스코프의 맨 위로 끌어올리는 경우를 호스팅이라고 한다 (변수의 경우 초기화 선언 (값할당) 까지 호스팅 되는 것이 아니므로 초기화 하지 않은채 출력하게 되면 undefined가 출력되게 된다)
+- closure : function + environment(함수가 접근 할 수 있는 범위) , 함수가 생성 될 때마다 closure가 생성이 된다 
