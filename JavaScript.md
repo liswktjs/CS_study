@@ -41,6 +41,8 @@ Run-to-completion : 이벤트 루프가 다음 콜백을 처리하기 위해서�
 - hosting: 자바스크립트의 경우 변수의 선언과 함수들을 해당 스코프의 맨 위로 끌어올리는 경우를 호스팅이라고 한다 (변수의 경우 초기화 선언 (값할당) 까지 호스팅 되는 것이 아니므로 초기화 하지 않은채 출력하게 되면 undefined가 출력되게 된다)
 - closure : function + environment(함수가 접근 할 수 있는 범위) , 함수가 생성 될 때마다 closure가 생성이 된다 
 
+<hr>
+
 ### String 객체 
 
 > String 메서드 
@@ -64,6 +66,8 @@ Run-to-completion : 이벤트 루프가 다음 콜백을 처리하기 위해서�
 - str.replace('world', 'what') : 첫번째 인수로 전달받은 문자열이나 정규표현식을 검색해서 두 번째 인수로 전달한 문자열로 치환한 문자열로 반환한다 
 - str.split(' ') : 인수로 전달된 문자열 또는 정규표현식을 검색하여 문자열을 분리한 뒤 배열로 반환한다 ''의 경우 문자열을 한글자 한글자 배열로 구성하여 반환한다 ' ' 은 공백을 기준
 - str.charCodeAt(인덱스번호) : 인덱스에 해당하는 문자의 아스키코드 값을 반환한다 
+
+<hr>
 
 ### 배열 
 
@@ -113,6 +117,7 @@ Run-to-completion : 이벤트 루프가 다음 콜백을 처리하기 위해서�
 - arr.findIndex(imte => item.id == 2) : 자신을 호출한 배열의 요소를 순회하면서 인수로 전달된 콜백함수를 호출한다 콜백함수 반환값 중 첫번째로 true를 반환한 요소의 index값을 반환한다 만약 true가 나오지 않는다면 -1 를 반환한다 / find와 마찬가지로 요소값, 인덱스 값,this를 사용할 수 있다 
 - arr.flatMap(x => x.split('')) : 콜백함수 내에 전달된 문자열 배열 등을 평탄화 하는 작업을 진행한다
 
+<hr>
 
 ### 모듈 
 
@@ -190,3 +195,68 @@ sayHello('JASUN');
 ### 경로가 없는 모듈은 금지 된다 
 
 브라우저 환경에서는 import 는 반드시 상대 혹은 절대 URL 앞에 와야 한다 
+
+<hr> 
+
+## 스프레드 문법 
+
+...은 하나로 뭉쳐져 있는 여러 값들의 집합을 펼쳐서 개별적인 값들의 목록으로 만든다 / 스프레드 문법을 사용할 수 있는 대상은 Array, String, Map, Set, DOM컬렉션(NodeList, HTMLCollection), argument와 같이 for.. of 문으로 순회할 수 있는 이터러블에 한정된다 
+
+### 함수 호출문의 인수 목록에서 사용하는 경우 
+
+배열을 펼쳐서 개별적인 값들의 목록으로 만든 후 이를 함수의 인수 목록으로 전달한다 
+```
+const max = Math.max(...arr); 
+```
+
+*Rest 파라미터 : 스프레드 문법과 동일하게 표기를 한다 그렇지만 Rest 파라미터는 함수에 전달된 인수들의 목록을 배열로 전달받기 위해 매개 변수 이름 앞에 ...을 붙이는 것이다
+
+### 배열 리터럴 내부에서 사용하는 경우 
+
+#### concat 을 대체하기 
+
+2개의 배열을 하나로 합칠때  
+
+1. concat 
+```
+let arr = [1,2].concat(arr2); 
+```
+2. 스프레드 문법 
+```
+const arr = [...[1,2], ...arr2];
+```
+
+#### splice 
+
+어떤 배열의 중간에 다른 배열의 요소들을 추가하거나 제거하려면 splice를 사용한다/ 세번째 인수로 배열을 전달하면 배열 전체가 추가 된다 
+
+```
+let arr1 = [1,4];
+let arr2 = [2,3];
+
+arr1.splice(1,0,arr2); // [1,[2,3],4] 
+
+arr1.splice(1,0,...arr2) // [1,2,3,4]
+```
+
+#### 이터러블을 배열로 반환 
+
+```
+// 스프레드 사용하지 않았을 때
+function sum() {
+  let args = Array.prototupe.splice.call(arguments);
+  
+  return args.reduce(function (pre,cur) {
+    return pre + cur;
+  },0);
+}
+
+// 스프레드 문법을 사용할 때 
+
+function sum() {
+  return [...arguments].reduce((pre,cur) => pre+cur , 0 ); 
+ } 
+console.log(sum(1,2,3)); // 6
+
+```
+
