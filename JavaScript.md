@@ -388,7 +388,4 @@ new Foo() (x) 사용 불가능
 2. 중복된 매개변수 이름을 선언할 수 없다 
 3. 화살표 함수는 함수 자체의 this, arguments,super, new.target 바인딩을 가지지 않는다 따라서 화살표 내부에서 해당 사항들을 참조하면 스코프 체인을 통해 상위 스코프의 this,arguments, super, new.target을 참조한다 
 
-##### this 
-
-this 바인딩은 함수가 어떻게 호출되었는지에 따라 동적으로 결정된다 
-
+##### 
