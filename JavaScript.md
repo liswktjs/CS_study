@@ -449,7 +449,20 @@ new Foo() (x) 사용 불가능
 ```
 const serverExample = url => {
   return new Promise((resolve,  reject) => {
-    const xhr = new XMLHttpRequest
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET',url);
+    xhr.send();
+    
+    xhr.onload = () => {
+      if(xhr.status === 200) {
+        /*성공적으로 실행했을 경우 resolve 함수 실행*/
+        resolve(JSON.parse(xhr.response));
+      }else{ /*실행이 실패했을 경우  reject 함수 실행*/
+        reject(new Error(xhr.status));
+       }
+     };
+    });
+  };
 ```
 
 프로미스를 생성할 때에는 생성자 함수를 활용한다. 프로미스 생성자 함수는 비동기 처리를 성공했을 때 활용할 콜백함수 resolve와 비동기 처리가 실패했을 때 호출할 reject 이 두가지를 인수로 전달받아야 한다. 
