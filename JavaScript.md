@@ -468,3 +468,95 @@ const serverExample = url => {
 프로미스를 생성할 때에는 생성자 함수를 활용한다. 프로미스 생성자 함수는 비동기 처리를 성공했을 때 활용할 콜백함수 resolve와 비동기 처리가 실패했을 때 호출할 reject 이 두가지를 인수로 전달받아야 한다. 
 
 
+#### 프로미스의 3가지 상태 
+
+프로미스는 new Promise()로 프로미스를 생성하고 종료 될때까지 3가지 상태를 가진다 
+1. 대기(pending) : 비동기 처리, 실행을 위해 대기하고 있는 상태 
+2. 이행(fulfilled) : 비동기 처리가 완료되어 프로미스가 결과 값을 반환 해준 상태 resolve 콜백함수로 후속처리를 한다  
+3. 실패(rejected) : 비동기 처리가 실패하거나 오류가 발생한 상태 reject 콜백함수로 후속 처리를 진행한다 / reject 로 에러 객체를 전달하고 .catch()를 통해서 에러 값을 받아 처리한다 
+
+
+```
+function getData(){
+  return new Promise(function(resolve, reject) {
+    $.get('url주소', function(response) {
+      if(response){
+        resolve(response);
+      }
+      reject(new Error('Request is failed'));
+    });
+  });
+}
+
+getData().then(function(data){
+  console.log(data);
+}).catch(function(err){
+  console.log(err);
+});
+```
+
+#### Promise Chaining 프로미스 연결하기 
+
+then() 메서드의 경우 각각 Promise가 이행됐을 때, 거부되었을 때 이행할 2가지의 콜백함수를 인수로 받는다. 
+
+then 메시드는 Promise를 리턴하기 때문에 이어지는 then 호출들을 손쉽게 연결할 수 있다 then에 핸들러로 전달된 함수가 프로미스를 반환 할 경우, 이와 동등한 프로미스 메서드 체인이 그 다음 then에 연결된다 
+
+```
+Promise.resolve('foo')
+  .then(function (string) {
+    return new Promise( function(resolve, reject) {
+      setTimeout(function() {
+        string += 'bar';
+        resolve(string);
+      }, 1);
+    });
+  })
+  
+  .then(function (string){
+    setTimeout(function() {
+      string += 'bax';
+      console.log(string);
+     }, 1)
+     return string;
+   }) 
+   .then(() => {
+    throw new Error('error'));
+   })
+```
+
+#### 프로미스 에러 처리하기 
+
+에러를 처리 하는 방법에는 2가지 가 있다 
+
+1. then() 의 두 번째 인자로 에러를 처리하는 방법 
+```
+getData().then(handleSuccess, handleError);
+```
+2. catch()를 이용하는 방법 
+
+위의 두가지 모두 rejcet()가 호출되어 실패 상태가 된 경우에만 실행이 된다 
+
+두가지의 경우를 예제를 통해 비교해본다면 
+
+```
+
+function getData() {
+  return new Promise(function(resolve, reject){
+    reject('failed');
+    });
+ }
+
+/*then의 두번째 인자로 에러를 처리할 때 */ 
+getData().then(function(){
+  //
+ }, function (err) { // 2번째 인자 
+  console.log('then 으로 처리한 error " , err);
+ }); 
+
+/*catch로 에러를 처리할 때 */
+ 
+ getData().then().catch(function(err){
+  console.log(err);
+ });
+    
+```
