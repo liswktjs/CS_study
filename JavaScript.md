@@ -560,3 +560,9 @@ getData().then(function(){
  });
     
 ```
+
+<hr>
+
+### 비동기함수를 더 쉽게 사용하는 방법 async await 
+
+
